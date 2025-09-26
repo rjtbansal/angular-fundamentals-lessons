@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Car } from '../car';
 
@@ -31,10 +31,22 @@ import { Car } from '../car';
             <span>{{car.price}}</span>
           </p>
         </section>
-      </article>`,
+      </article>
+      <button (click)="handleCarSaved()">Save Car</button>
+      `,
   styles: ``,
 })
 export class ListingComponent {
 
+  // Input is like props in React. It is used to pass data from parent component to child component.
+  // Here we are telling angular that this car property is required. So if a parent component does not pass this property, angular will throw an error.
+  // This is similar to propTypes in React.
   @Input({ required: true}) car!: Car;
+// Output is used to emit events from child component to parent component.
+// Here we are creating an event emitter that will emit a Car object when the car is saved.
+  @Output() carSaved = new EventEmitter<Car>();
+
+  handleCarSaved() {
+    this.carSaved.emit(this.car);
+  }
 }

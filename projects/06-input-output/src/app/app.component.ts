@@ -15,9 +15,18 @@ import { ListingComponent } from './listing/listing.component';
         So [car] is similar to props in React. We have car property in the ListingComponent and we bind it to carEntry variable in the loop.  
        -->
        @for(carEntry of carList; track carEntry) {
-         <app-listing [car]="carEntry" />
+        <!-- This is where we use the ListingComponent -->
+         <app-listing [car]="carEntry" (carSaved)="addCarToSaved($event)" />
        }
       <!-- end car listing markup -->
+    </section>
+    <h2>Saved Cars List</h2>
+    <section>
+      <ul>
+        @for(car of savedCarList; track car) {
+          <li>{{ car.model }} {{ car.make }}</li>
+        }
+      </ul>
     </section>
   `,
   styles: [],
@@ -59,4 +68,8 @@ export class AppComponent {
       transmission: 'Automatic',
     },
   ];
+
+  addCarToSaved(car: Car) {
+    this.savedCarList.push(car);
+  }
 }
